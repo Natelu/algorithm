@@ -3,12 +3,16 @@ class Solution:
         visit = [0] * 123;
         return visit
     count=0
+    cur_count=0
     def parse_long(self,tar,left,right,i):
         if right<len(tar):
             if tar[left] == tar[right]:
-                self.count += 1  # 长度加1
+                self.cur_count += 1  # 长度加1
                 self.parse_long(tar, left + 1, right + 1,i)
             else:
+                if self.cur_count>self.count:
+                    self.count=self.cur_count
+                    self.cur_count=0
                 self.parse_long(tar, i, right + 1,i)
         return self.count
 
@@ -61,6 +65,7 @@ class Solution:
             #                 # start=max_index
             #                 start=i
             self.count=0
+            self.cur_count=0
             local_long=self.parse_long(tar,i,j,i)
             if local_long>long:
                 long=local_long
@@ -68,7 +73,7 @@ class Solution:
         return start,long
 
 if __name__=='__main__':
-    str='pwwekw'
+    str='abcabcabcabc'
     s=Solution()
     res=s.lengthOfLongestSubstring(str)
     print(res)
